@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015 Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
@@ -9,8 +9,6 @@ var express = require('express'),
 
 // Set up a standard Express app
 var app = express();
-=======
->>>>>>> 6da1c21888f3bd15d97462642d5ce63eba074143
 
 // If you are producing a combined Web + Mobile app, then you should handle
 // anything like logging, registering middleware, etc. here
@@ -37,7 +35,4 @@ mobile.tables.initialize()
         app.use(mobile);    // Register the Azure Mobile Apps middleware
         app.listen(process.env.PORT || 3000);   // Listen for requests
     });
-<<<<<<< HEAD
-=======
 
->>>>>>> 6da1c21888f3bd15d97462642d5ce63eba074143
