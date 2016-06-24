@@ -2,7 +2,7 @@
 module.exports = {
     "get": function (req, res, next) {
        var query = {
-          sql: 'SELECT email, firstName, lastName, photoUrl FROM users",
+          sql: 'SELECT * FROM users',
           parameters: []
       };
       req.azureMobile.data.execute(query)
