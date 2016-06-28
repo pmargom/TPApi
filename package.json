@@ -9,6 +9,7 @@
   "repository": "Azure/azure-mobile-apps-quickstarts",
   "license": "MIT",
   "dependencies": {
+    "swagger-node-express": "~2.0",
     "express": "^4.13.0",
     "azure-mobile-apps": "^2.1.0"
   },
