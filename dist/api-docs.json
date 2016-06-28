@@ -1,103 +1,196 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0.0",
-    "title": "Sample spec",
-    "description": "Sample spec for Swagger",
-    "termsOfService": "http://swagger.io/terms/"
+    "title": "iCanGO API",
+    "description": "Move your app forward with the iCanGo API",
+    "version": "1.0.0"
   },
-  "basePath": "/",
-  "tags" : [
-    {"name": "Tag1",
-      "description": "API for something"
-    }
-  ],
+  "host": "icangopmg-develop.azurewebsites.net/api/v1",
   "schemes": [
     "https"
   ],
-  "consumes": [
-    "application/json"
-  ],
+  "basePath": "/v1",
   "produces": [
     "application/json"
   ],
   "paths": {
-    "/path/to/method": {
-      "post": {
-        "tags": ["Tag1"],
-        "description": "what this API does",
-        "operationId": "for the URL",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Job Parameters",
-            "in": "body",
-            "description": "Job to add to the database",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/create"
-            }
-          }
+    "/users": {
+      "get": {
+        "summary": "User list",
+        "description": "List of users registered to use the iCanGo",
+        "parameters": [],
+        "tags": [
+          "Users"
         ],
         "responses": {
           "200": {
-            "description": "create response",
+            "description": "An array of users",
             "schema": {
-              "$ref": "#/definitions/response"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
             }
           }
         }
       }
     },
-    "/path/to/method/{someVariable}": {
-      "delete":{
-        "tags":["Tag1"],
-        "description":"Deletes a something",
-        "operationId":"delete",
-        "produces": [
-          "application/json"
-        ],
-        "parameters":[
+    "/users/:id": {
+      "get": {
+        "summary": "Price Estimates",
+        "description": "The Price Estimates endpoint returns an estimated price range\nfor each product offered at a given location. The price estimate is\nprovided as a formatted string with the full price range and the localized\ncurrency symbol.<br><br>The response also includes low and high estimates,\nand the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for\nsituations requiring currency conversion. When surge is active for a particular\nproduct, its surge_multiplier will be greater than 1, but the price estimate\nalready factors in this multiplier.\n",
+        "parameters": [
           {
-            "name": "someVariable",
-            "in": "path",
-            "description": "ID to delete",
+            "name": "start_latitude",
+            "in": "query",
+            "description": "Latitude component of start location.",
             "required": true,
-            "type": "string"
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "start_longitude",
+            "in": "query",
+            "description": "Longitude component of start location.",
+            "required": true,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "end_latitude",
+            "in": "query",
+            "description": "Latitude component of end location.",
+            "required": true,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "end_longitude",
+            "in": "query",
+            "description": "Longitude component of end location.",
+            "required": true,
+            "type": "number",
+            "format": "double"
           }
+        ],
+        "tags": [
+          "Estimates"
         ],
         "responses": {
           "200": {
-            "description": "delete response",
-            "schema":{
-              "$ref":"#/definitions/deleteRes"
+            "description": "An array of price estimates by product",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PriceEstimate"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
             }
           }
         }
-      },
-      "get":{
-        "tags": [ "Tag1"],
-        "description": "Returns the status of something",
-        "operationId": "findById",
-        "produces": [
-          "application/json"
-        ],
+      }
+    },
+    "/services": {
+      "get": {
+        "summary": "Product Types",
+        "description": "The Products endpoint returns information about the *Uber* products\noffered at a given location. The response includes the display name\nand other details about each product, and lists the products in the\nproper display order.\n",
         "parameters": [
           {
-            "name": "ID",
-            "in": "path",
-            "description": "ID to fetch",
+            "name": "latitude",
+            "in": "query",
+            "description": "Latitude component of location.",
             "required": true,
-            "type": "string"
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "description": "Longitude component of location.",
+            "required": true,
+            "type": "number",
+            "format": "double"
           }
+        ],
+        "tags": [
+          "Products"
         ],
         "responses": {
           "200": {
-            "description": "response",
+            "description": "An array of products",
             "schema": {
-              "$ref": "#/definitions/response1"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/services/:id": {
+      "get": {
+        "summary": "Time Estimates",
+        "description": "The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.",
+        "parameters": [
+          {
+            "name": "start_latitude",
+            "in": "query",
+            "description": "Latitude component of start location.",
+            "required": true,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "start_longitude",
+            "in": "query",
+            "description": "Longitude component of start location.",
+            "required": true,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "customer_uuid",
+            "in": "query",
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique customer identifier to be used for experience customization."
+          },
+          {
+            "name": "product_id",
+            "in": "query",
+            "type": "string",
+            "description": "Unique identifier representing a specific product for a given latitude & longitude."
+          }
+        ],
+        "tags": [
+          "Estimates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of products",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
             }
           }
         }
@@ -105,67 +198,42 @@
     }
   },
   "definitions": {
-    "create": {
+    "User": {
+      "type": "object",
       "properties": {
-        "eventId": {
-          "required":true,
-          "type": "string",
-          "example": "mathmaticial"
+        "id": {
+          "type": "guid",
+          "description": "Unique identifier representing a specific user for a given latitude & longitude."
         },
-        "numberRequired": {
-          "required":true,
-          "type":"integer",
-          "format": "int64",
-          "example": 500
-        }
-      }
-    },
-    "response1": {
-      "properties": {
-        "jobID": {
-          "required":true,
+        "email": {
           "type": "string",
-          "example": "23423456543"
+          "description": "Email of the user."
         },
-        "request": {
-          "required":true,
-          "type": "schema",
-          "example": {
-            "eventId":"mathmaticial",
-            "numberRequired": 500
-          }
-        }
-      }
-    },
-    "response": {
-      "properties": {
-        "jobID": {
-          "required": true,
-          "type" : "string",
-          "example" : "12321432423"
-        }
-      }
-    },
-    "delete": {
-      "properties": {
-        "jobID": {
-          "required": true,
-          "type" : "string",
-          "example" : "234344234234"
+        "lastName": {
+          "type": "string",
+          "description": "First name of the user."
         },
-        "status" : {
-          "required": true,
+        "photoUrl": {
           "type": "string",
-          "example": "deleted"
+          "description": "Avatar image url for the user."
+        },
+        "searchPreferences": {
+          "type": "string",
+          "description": "Tag list that user has stored."
+        },
+        "status": {
+          "type": "string",
+          "description": "Indicate if the user account is locked."
+        },
+        "deleted": {
+          "type": "bool",
+          "description": "Indicates if the user account is deleted."
         }
       }
     },
-    "400error" : {
+    "Services": {
+      "type": "object",
       "properties": {
-        "message": {
-          "type": "string",
-          "example" : "400 Bad Request"
-        }
       }
     }
   }
